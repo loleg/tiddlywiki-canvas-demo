@@ -542,7 +542,7 @@ Kevin http://skinofstars.com</pre>
 <div title="DefaultTiddlers" modifier="Oleg" created="200906071150" modified="200906071502" changecount="3">
 <pre>[[Home]]</pre>
 </div>
-<div title="DemoAlpha" modifier="Oleg" created="200906071339" modified="200906071453" tags="mudbun" changecount="4">
+<div title="DemoAlpha" modifier="Oleg" created="200906071339" modified="200906071513" tags="mudbun" changecount="6">
 <pre>&lt;&lt;Canvas
 ctx.strokeStyle = 'blue';
 ctx.strokeRect(50,50,200,100);
@@ -560,15 +560,29 @@ ctx.strokeStyle = 'purple';
 ctx.strokeRect(50,50,200,100);
 &gt;&gt;</pre>
 </div>
+<div title="DemoSmiley" modifier="Oleg" created="200906071514" tags="mudbun" changecount="1">
+<pre>&lt;&lt;Canvas
+    ctx.beginPath();
+    ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
+    ctx.moveTo(110,75);
+    ctx.arc(75,75,35,0,Math.PI,false);   // Mouth
+    ctx.moveTo(65,65);
+    ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
+    ctx.moveTo(95,65);
+    ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye
+    ctx.stroke();
+&gt;&gt;</pre>
+</div>
 <div title="Home" modifier="Oleg" created="200906071156" modified="200906071502" changecount="2">
 <pre>Welcome! This is a work in progress. Try DemoAlpha</pre>
 </div>
 <div title="JavaScript" modifier="Oleg" created="200906071156" changecount="1">
 <pre>This is the universal scripting language for Web browsers. MuddyBunny requires Firefox 3, Safari 3 or Google Chrome.</pre>
 </div>
-<div title="MainMenu" modifier="Oleg" created="200906071156" changecount="1">
+<div title="MainMenu" modifier="Oleg" created="200906071156" modified="200906071514" changecount="2">
 <pre>[[Home]]
-[[About|MuddyBunny]]</pre>
+[[About|MuddyBunny]]
+[[Order]]</pre>
 </div>
 <div title="MuddyBunny" modifier="Oleg" created="200906071154" changecount="1">
 <pre>MuddyBunny is...
@@ -716,8 +730,9 @@ config.parsers.mudbunFormatter.formatTag = 'ExampleFormat';
 } // end of 'install only once'
 //}}}</pre>
 </div>
-<div title="Order" modifier="Oleg" created="200906071408" modified="200906071453" tags="mudbun" changecount="3">
+<div title="Order" modifier="Oleg" created="200906071408" modified="200906071514" tags="mudbun" changecount="4">
 <pre>DemoAlpha
+DemoSmiley
 DemoBeta
 DemoGamma</pre>
 </div>

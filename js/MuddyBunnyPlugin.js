@@ -82,8 +82,19 @@ config.macros.Canvas = {
 };
 
 // Kindly provided by Matt
+function imageFromUrl(url) {
+	var img = document.createElement('img')
+	img.src = url;
+	return img;
+}
+
 function runCanvasScript(canvas, program) {
 	ctx = canvas.getContext('2d');
+
+	function drawImageFromUrl(url, x, y) {
+		ctx.drawImage(imageFromUrl(url), x || 0, y || 0);
+	}
+
 	eval(program);
 }
 
