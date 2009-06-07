@@ -65,7 +65,7 @@ DAMAGE.
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' />
 <!--}}}-->
 <!--PRE-HEAD-END-->
-<title> My TiddlyWiki - a reusable non-linear personal web notebook </title>
+<title> MuddyBunny - canvas usage tags </title>
 <style id="styleArea" type="text/css">
 #saveTest {display:none;}
 #messageArea {display:none;}
@@ -531,10 +531,58 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="CanvasRectangle" modifier="Kevin" created="200906071138" tags="canvas" changecount="1">
-<pre>ctx.strokeRect(50,50,200,100);
+<div title="CanvasRectangle" modifier="Kevin" created="200906071138" modified="200906071240" tags="canvas" changecount="5">
+<pre>There is only one primitve shape in canvas, the rectangle. All others must be created with paths
 
-this draws a rectangle</pre>
+stroking the rectangle
+ctx.strokeRect(50,50,200,100);
+
+filling the rectangle
+ctx.fillStyle = &quot;rgb(200,0,0)&quot;;
+ctx.fillRect (10, 10, 55, 50);
+
+border
+ctx.strokeStyle = 'blue';
+
+clear it
+clearRect(x,y,width,height) :</pre>
+</div>
+<div title="GettingStarted" modifier="Kevin" created="200906071228" modified="200906071240" changecount="4">
+<pre>* CanvasRectangle
+* [[Paths]]</pre>
+</div>
+<div title="MainMenu" modifier="Kevin" created="200906071222" changecount="1">
+<pre>[[GettingStarted]]</pre>
+</div>
+<div title="Paths" modifier="Kevin" created="200906071241" modified="200906071247" changecount="3">
+<pre>the basics:
+* beginPath()
+* closePath()
+* stroke()
+* fill()
+
+must begin path, then can move in lines or arcs or whatever...
+triangle example
+ctx.beginPath();
+ctx.moveTo(75,50);
+ctx.lineTo(100,75);
+ctx.lineTo(100,25);
+ctx.fill();
+
+something like 
+arc(x, y, radius, startAngle, endAngle, anticlockwise)
+
+in action, draws a small circle
+ctx.arc(60,65,5,0,Math.PI*2,true);</pre>
+</div>
+<div title="SiteSubtitle" modifier="Kevin" created="200906071229" changecount="1">
+<pre>canvas usage tags</pre>
+</div>
+<div title="SiteTitle" modifier="Kevin" created="200906071221" modified="200906071222" changecount="2">
+<pre>MuddyBunny</pre>
+</div>
+<div title="Tags For transitions.. maybe" modifier="Kevin" created="200906071211" changecount="1">
+<pre>...</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
