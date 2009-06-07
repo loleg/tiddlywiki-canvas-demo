@@ -542,6 +542,11 @@ Kevin http://skinofstars.com</pre>
 <div title="DefaultTiddlers" modifier="Oleg" created="200906071150" changecount="1">
 <pre>[[Home]]</pre>
 </div>
+<div title="Demo test" modifier="Oleg" created="200906071339" modified="200906071340" tags="mudbun" changecount="2">
+<pre>&lt;&lt;Canvas
+ctx.strokeStyle = 'blue'; ctx.strokeRect(50,50,200,100);
+&gt;&gt;</pre>
+</div>
 <div title="Home" modifier="Oleg" created="200906071156" changecount="1">
 <pre>Welcome! This is a work in progress.</pre>
 </div>
@@ -557,6 +562,84 @@ Kevin http://skinofstars.com</pre>
 * a TiddlyWiki
 * a JavaScript plugin
 * a CanvasPlayground</pre>
+</div>
+<div title="MuddyBunnyPlugin" modifier="Oleg" created="200906071206" modified="200906071339" tags="systemConfig" changecount="3">
+<pre>/***
+|''Name:''|MuddyBunnyPlugin|
+|''Description:''|Format Tiddler content into a Canvas object|
+|''Author:''|Oleg Lavrovsky (lavrovsky (at) gmail (dot) com)|
+|''Source:''|http://github.com/loleg/MuddyBunny|
+|''Requires''||
+|''Version:''|0.0.1|
+|''Date:''|June 7, 2009|
+|''Comments:''|Please make comments at /dev/null |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|''~CoreVersion:''|2.1.0|
+
+***/
+
+//{{{
+// Ensure that the plugin is only installed once
+if(!version.extensions.MuddyBunnyPlugin) {
+version.extensions.MuddyBunnyPlugin = {installed:true};
+
+if(version.major &lt; 2 || (version.major == 2 &amp;&amp; version.minor &lt; 1))
+	{alertAndThrow('MuddyBunnyPlugin requires TiddlyWiki 2.1 or later.');}
+
+// mudbunFormatter = {}; // 'namespace' for local functions
+
+mudbunDebug = function(out,str)
+{
+	createTiddlyText(out,str.replace(/\n/mg,'\\n').replace(/\r/mg,'RR'));
+	createTiddlyElement(out,'br');
+};
+
+// Adapted from PSD's ProcessingCanvas
+config.macros.Canvas = {
+	counter: 0,
+	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
+		var id = &quot;mudbuncanvas&quot; + this.counter;
+		var canvas = createTiddlyElement(place,&quot;canvas&quot;,id);
+
+		// inlined code
+		var code = paramString;
+
+		// quick and dirty grab of code from a named tiddler
+		if (store.tiddlerExists(params[0])) {
+			code = store.getTiddlerText(params[0]);
+		}
+
+		// or with no params, grab code from this tiddler
+		if (paramString.trim() == '') {
+			code = tiddler.text;
+		}
+
+/*
+		createTiddlyElement(place,&quot;br&quot;);
+		var restartBtn = createTiddlyButton(place,&quot;restart&quot;,&quot;restart&quot;,function() {
+				story.refreshTiddler(tiddler.title,null,true);
+				return false;
+			},
+			'processingRestart' // it's a class so you can style the button
+		);
+*/
+		runCanvasScript(canvas,code);
+	}
+};
+
+// Kindly provided by Matt
+function runCanvasScript(canvas, program) {
+	ctx = canvas.getContext('2d');
+	eval(program);
+}
+
+/*
+config.parsers.mudbunFormatter = new Formatter(config.mudbunFormatters);
+config.parsers.mudbunFormatter.format = 'example';
+config.parsers.mudbunFormatter.formatTag = 'ExampleFormat';
+*/
+} // end of 'install only once'
+//}}}</pre>
 </div>
 <div title="OxfordGeekJam" modifier="Oleg" created="200906071154" changecount="1">
 <pre>An informal gathering of techy people with ideas at the Jam Factory in Oxford. For more info: http://oxfordgeekjam.net</pre>

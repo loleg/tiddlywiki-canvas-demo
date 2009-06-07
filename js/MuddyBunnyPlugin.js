@@ -20,7 +20,7 @@ version.extensions.MuddyBunnyPlugin = {installed:true};
 if(version.major < 2 || (version.major == 2 && version.minor < 1))
 	{alertAndThrow('MuddyBunnyPlugin requires TiddlyWiki 2.1 or later.');}
 
-mudbunFormatter = {}; // 'namespace' for local functions
+// mudbunFormatter = {}; // 'namespace' for local functions
 
 mudbunDebug = function(out,str)
 {
@@ -28,10 +28,50 @@ mudbunDebug = function(out,str)
 	createTiddlyElement(out,'br');
 };
 
+// Adapted from PSD's ProcessingCanvas
+config.macros.Canvas = {
+	counter: 0,
+	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
+		var id = "mudbuncanvas" + this.counter;
+		var canvas = createTiddlyElement(place,"canvas",id);
+
+		// inlined code
+		var code = paramString;
+
+		// quick and dirty grab of code from a named tiddler
+		if (store.tiddlerExists(params[0])) {
+			code = store.getTiddlerText(params[0]);
+		}
+
+		// or with no params, grab code from this tiddler
+		if (paramString.trim() == '') {
+			code = tiddler.text;
+		}
+
+/*
+		createTiddlyElement(place,"br");
+		var restartBtn = createTiddlyButton(place,"restart","restart",function() {
+				story.refreshTiddler(tiddler.title,null,true);
+				return false;
+			},
+			'processingRestart' // it's a class so you can style the button
+		);
+*/
+		runCanvasScript(canvas,code);
+	}
+};
+
+// Kindly provided by Matt
+function runCanvasScript(canvas, program) {
+	ctx = canvas.getContext('2d');
+	eval(program);
+}
+
+/*
 config.parsers.mudbunFormatter = new Formatter(config.mudbunFormatters);
 config.parsers.mudbunFormatter.format = 'example';
 config.parsers.mudbunFormatter.formatTag = 'ExampleFormat';
-
+*/
 } // end of 'install only once'
 //}}}
 
