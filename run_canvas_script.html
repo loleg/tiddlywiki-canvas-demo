@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>HTML example</title>
+		<script type="text/javascript">/* <![CDATA[ */
+			var canvas
+			function go() {
+				canvas = document.getElementById('canvas');
+				runCanvasScript(canvas, "ctx.strokeStyle = 'blue'; ctx.strokeRect(50,50,200,100);");
+			}
+			function runCanvasScript(canvas, program) {
+				ctx = canvas.getContext('2d');
+				eval(program);
+			}
+		/* ]]> */</script>
+	</head>
+	<body onload="go()">
+		<canvas id="canvas" width="300" height="300"></canvas>
+	</body>
+</html>
