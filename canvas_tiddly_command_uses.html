@@ -547,14 +547,15 @@ ctx.strokeStyle = 'blue';
 clear it
 clearRect(x,y,width,height) :</pre>
 </div>
-<div title="GettingStarted" modifier="Kevin" created="200906071228" modified="200906071240" changecount="4">
+<div title="GettingStarted" modifier="Kevin" created="200906071228" modified="200906071310" changecount="5">
 <pre>* CanvasRectangle
-* [[Paths]]</pre>
+* [[Paths]]
+* UsingImages</pre>
 </div>
 <div title="MainMenu" modifier="Kevin" created="200906071222" changecount="1">
 <pre>[[GettingStarted]]</pre>
 </div>
-<div title="Paths" modifier="Kevin" created="200906071241" modified="200906071247" changecount="3">
+<div title="Paths" modifier="Kevin" created="200906071241" modified="200906071309" changecount="5">
 <pre>the basics:
 * beginPath()
 * closePath()
@@ -573,7 +574,24 @@ something like
 arc(x, y, radius, startAngle, endAngle, anticlockwise)
 
 in action, draws a small circle
-ctx.arc(60,65,5,0,Math.PI*2,true);</pre>
+ctx.arc(60,65,5,0,Math.PI*2,true);
+
+bezier and quadratic curves
+uadraticCurveTo(cp1x, cp1y, x, y) // BROKEN in Firefox 1.5 (see work around below)
+bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)
+
+this makes a speech bubble
+// Quadratric curves example
+ctx.beginPath();
+ctx.moveTo(75,25);
+ctx.quadraticCurveTo(25,25,25,62.5);
+ctx.quadraticCurveTo(25,100,50,100);
+ctx.quadraticCurveTo(50,120,30,125);
+ctx.quadraticCurveTo(60,120,65,100);
+ctx.quadraticCurveTo(125,100,125,62.5);
+ctx.quadraticCurveTo(125,25,75,25);
+ctx.stroke();
+</pre>
 </div>
 <div title="SiteSubtitle" modifier="Kevin" created="200906071229" changecount="1">
 <pre>canvas usage tags</pre>
@@ -583,6 +601,16 @@ ctx.arc(60,65,5,0,Math.PI*2,true);</pre>
 </div>
 <div title="Tags For transitions.. maybe" modifier="Kevin" created="200906071211" changecount="1">
 <pre>...</pre>
+</div>
+<div title="UsingImages" modifier="Kevin" created="200906071313" changecount="1">
+<pre>var img = new Image();   // Create new Image object
+img.src = 'myImage.png'; // Set source path
+
+now we have the ref then we can draw it
+drawImage(image, x, y)
+
+slicing up the image
+drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
