@@ -539,16 +539,29 @@ Kevin http://skinofstars.com</pre>
 <div title="CanvasPlayground" modifier="Oleg" created="200906071156" changecount="1">
 <pre>Canvas is an HTML5 object that allows graphics manipulation.</pre>
 </div>
-<div title="DefaultTiddlers" modifier="Oleg" created="200906071150" changecount="1">
+<div title="DefaultTiddlers" modifier="Oleg" created="200906071150" modified="200906071502" changecount="3">
 <pre>[[Home]]</pre>
 </div>
-<div title="Demo test" modifier="Oleg" created="200906071339" modified="200906071340" tags="mudbun" changecount="2">
+<div title="DemoAlpha" modifier="Oleg" created="200906071339" modified="200906071453" tags="mudbun" changecount="4">
 <pre>&lt;&lt;Canvas
-ctx.strokeStyle = 'blue'; ctx.strokeRect(50,50,200,100);
+ctx.strokeStyle = 'blue';
+ctx.strokeRect(50,50,200,100);
 &gt;&gt;</pre>
 </div>
-<div title="Home" modifier="Oleg" created="200906071156" changecount="1">
-<pre>Welcome! This is a work in progress.</pre>
+<div title="DemoBeta" modifier="Oleg" created="200906071454" tags="mudbun" changecount="1">
+<pre>&lt;&lt;Canvas
+ctx.strokeStyle = 'red';
+ctx.strokeRect(50,50,200,100);
+&gt;&gt;</pre>
+</div>
+<div title="DemoGamma" modifier="Oleg" created="200906071454" tags="mudbun" changecount="1">
+<pre>&lt;&lt;Canvas
+ctx.strokeStyle = 'purple';
+ctx.strokeRect(50,50,200,100);
+&gt;&gt;</pre>
+</div>
+<div title="Home" modifier="Oleg" created="200906071156" modified="200906071502" changecount="2">
+<pre>Welcome! This is a work in progress. Try DemoAlpha</pre>
 </div>
 <div title="JavaScript" modifier="Oleg" created="200906071156" changecount="1">
 <pre>This is the universal scripting language for Web browsers. MuddyBunny requires Firefox 3, Safari 3 or Google Chrome.</pre>
@@ -563,7 +576,7 @@ ctx.strokeStyle = 'blue'; ctx.strokeRect(50,50,200,100);
 * a JavaScript plugin
 * a CanvasPlayground</pre>
 </div>
-<div title="MuddyBunnyPlugin" modifier="Oleg" created="200906071206" modified="200906071339" tags="systemConfig" changecount="3">
+<div title="MuddyBunnyPlugin" modifier="Oleg" created="200906071206" modified="200906071505" tags="systemConfig" changecount="13">
 <pre>/***
 |''Name:''|MuddyBunnyPlugin|
 |''Description:''|Format Tiddler content into a Canvas object|
@@ -594,12 +607,16 @@ mudbunDebug = function(out,str)
 	createTiddlyElement(out,'br');
 };
 
+mudbunConfig = {
+	orderTiddler: &quot;Order&quot;,
+	currentTiddler: &quot;&quot;
+};	
+
 // Adapted from PSD's ProcessingCanvas
 config.macros.Canvas = {
 	counter: 0,
 	handler: function (place,macroName,params,wikifier,paramString,tiddler) {
-		var id = &quot;mudbuncanvas&quot; + this.counter;
-		var canvas = createTiddlyElement(place,&quot;canvas&quot;,id);
+		var id = &quot;mudbunCanvas&quot; + this.counter;
 
 		// inlined code
 		var code = paramString;
@@ -614,15 +631,31 @@ config.macros.Canvas = {
 			code = tiddler.text;
 		}
 
-/*
-		createTiddlyElement(place,&quot;br&quot;);
-		var restartBtn = createTiddlyButton(place,&quot;restart&quot;,&quot;restart&quot;,function() {
-				story.refreshTiddler(tiddler.title,null,true);
+		mudbunConfig.currentTiddler = tiddler.title;
+
+		var nextBunny = getNextBunny(this);
+		if (nextBunny != null) {
+			createTiddlyButton(place,&quot;Continue&quot;,&quot;next&quot;,function() {	
+				switchBunny(nextBunny);			
 				return false;
-			},
-			'processingRestart' // it's a class so you can style the button
-		);
-*/
+			}, 'mudbunButton' // class for styling the button
+			);
+		}
+
+		var prevBunny = getPrevBunny(this);
+		if (prevBunny != null) {
+			createTiddlyButton(place,&quot;Previous&quot;,&quot;prev&quot;,function() {	
+				switchBunny(prevBunny);
+				return false;
+			}, 'mudbunButton' // class for styling the button
+			);
+		}
+
+		createTiddlyElement(place,&quot;br&quot;);
+
+		// Creates the Canvas object
+		var canvas = createTiddlyElement(place,&quot;canvas&quot;,id);
+
 		runCanvasScript(canvas,code);
 	}
 };
@@ -633,6 +666,48 @@ function runCanvasScript(canvas, program) {
 	eval(program);
 }
 
+// Retrieves the next tiddler to go to
+function getNextBunny() {
+	return findBunny(1);
+}
+
+// Retrieves the previous tiddler to go to
+function getPrevBunny() {
+	return findBunny(-1);
+}
+
+// Switches current presentation slide
+function findBunny(switchDirection) {
+
+	// Get ordering tiddler
+	if (!store.tiddlerExists(mudbunConfig.orderTiddler)) {
+		alert(&quot;Please create an 'Order' tiddler for your presentation&quot;);
+		return null;
+	}
+	var bunnyArray = store.getTiddlerText(mudbunConfig.orderTiddler).split(&quot;\n&quot;);
+
+	// Find current and return next
+	for (var i = (switchDirection) ? 0 : 1; 
+		 i &lt; bunnyArray.length - switchDirection; 
+		 i++) {
+		if (bunnyArray[i] == mudbunConfig.currentTiddler) {
+			// Return the next target
+			return bunnyArray[i + switchDirection];
+		}
+	}
+
+	// No next bunny available
+	return null;
+}
+
+// Switches the shown tiddlers
+function switchBunny(nextBunny) {
+	// Close currently displayed
+	story.closeTiddler(mudbunConfig.currentTiddler,false,false);
+	// Return the next one 
+	story.displayTiddler(null, nextBunny);
+}
+
 /*
 config.parsers.mudbunFormatter = new Formatter(config.mudbunFormatters);
 config.parsers.mudbunFormatter.format = 'example';
@@ -640,6 +715,11 @@ config.parsers.mudbunFormatter.formatTag = 'ExampleFormat';
 */
 } // end of 'install only once'
 //}}}</pre>
+</div>
+<div title="Order" modifier="Oleg" created="200906071408" modified="200906071453" tags="mudbun" changecount="3">
+<pre>DemoAlpha
+DemoBeta
+DemoGamma</pre>
 </div>
 <div title="OxfordGeekJam" modifier="Oleg" created="200906071154" changecount="1">
 <pre>An informal gathering of techy people with ideas at the Jam Factory in Oxford. For more info: http://oxfordgeekjam.net</pre>
@@ -649,6 +729,9 @@ config.parsers.mudbunFormatter.formatTag = 'ExampleFormat';
 </div>
 <div title="SiteTitle" modifier="Oleg" created="200906071015" modified="200906071150" changecount="2">
 <pre>MuddyBunny</pre>
+</div>
+<div title="StyleSheet" modifier="Oleg" created="200906071501" modified="200906071504" changecount="6">
+<pre>.mudbunButton { clear:both; padding:2pt; margin-right:1em; border:1px solid black; background:#eee; }</pre>
 </div>
 <div title="TiddlyWiki" modifier="Oleg" created="200906071155" changecount="1">
 <pre>This is a desktop wiki developed by Osmosoft. Check out http://www.tiddlywiki.com</pre>
