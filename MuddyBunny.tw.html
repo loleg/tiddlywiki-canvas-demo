@@ -542,10 +542,23 @@ Kevin http://skinofstars.com</pre>
 <div title="DefaultTiddlers" modifier="Oleg" created="200906071150" changecount="1">
 <pre>[[Home]]</pre>
 </div>
-<div title="Demo test" modifier="Oleg" created="200906071339" modified="200906071340" tags="mudbun" changecount="2">
+<div title="Demo test" modifier="Kevin" created="200906071339" modified="200906071409" tags="mudbun" changecount="6">
 <pre>&lt;&lt;Canvas
 ctx.strokeStyle = 'blue'; ctx.strokeRect(50,50,200,100);
-&gt;&gt;</pre>
+&gt;&gt;
+a line of text
+&lt;&lt;Canvas
+    ctx.beginPath();
+    ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
+    ctx.moveTo(110,75);
+    ctx.arc(75,75,35,0,Math.PI,false);   // Mouth
+    ctx.moveTo(65,65);
+    ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
+    ctx.moveTo(95,65);
+    ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye
+    ctx.stroke();
+&gt;&gt;
+</pre>
 </div>
 <div title="Home" modifier="Oleg" created="200906071156" changecount="1">
 <pre>Welcome! This is a work in progress.</pre>
